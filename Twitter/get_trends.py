@@ -2,11 +2,12 @@
 from datetime import datetime as dt
 import time
 
-from yaml import (load,
-                  dump)
-from cassandra.cluster import Cluster
-from twython import Twython
+#from yaml import (load,
+#                  dump)
+#from twython import Twython
 
+from cassandra.cluster import Cluster
+from cassandra.query import dict_factory
 
 TIME_STRING = '%a %b %d %X %z %Y'
 
@@ -75,6 +76,11 @@ class TwitterCassandraConnector(object):
                 NOW());"""
 
         self.session.execute(tweet_insert_query.format(**params))
+
+    def read(self):
+        query = 'SELECT * FROM trending.tweets;'
+        self.session.row_factory = dict_factory
+        return self.session.execute(query)
 
     def connect(self, host):
         self.cluster = Cluster(host)
