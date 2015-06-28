@@ -1,7 +1,7 @@
 from itertools import groupby
-from operator import itemgetter
 
-def distribution(data, keyfun=None):
+
+def group(data, keyfun=None):
     data = sorted(data, key=keyfun)
     groups = []
     uniquekeys = []
@@ -10,7 +10,14 @@ def distribution(data, keyfun=None):
         groups.append(list(group))
         uniquekeys.append(key)
 
-    groups = [len(group) for group in groups]
-    distribution = list(zip(uniquekeys, groups))
+    return dict(zip(uniquekeys, groups))
 
-    return distribution
+
+def distribution(data, keyfun=None):
+
+    groups = group(data, keyfun)
+
+    for key in groups:
+        groups[key] = len(groups[key])
+
+    return groups
