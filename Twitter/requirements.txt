@@ -2,6 +2,7 @@ cairocffi==0.5.4
 cassandra-driver==2.5.1
 cffi==0.8.6
 chardet==2.3.0
+flake8==2.4.1
 futures==3.0.3
 ipython==3.1.0
 Jinja2==2.7.3
@@ -9,11 +10,15 @@ jsonschema==2.5.1
 Mako==1.0.0
 MarkupSafe==0.23
 matplotlib==1.4.3
+mccabe==0.3.1
 mock==1.0.1
 nose==1.3.4
 numpy==1.8.2
+pep8==1.5.7
 ply==3.4
 pycparser==2.10
+pyflakes==0.8.1
+Pygments==2.0.2
 pyparsing==2.0.3
 python-dateutil==2.2
 pytz==2012rc0
