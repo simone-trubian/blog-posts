@@ -13,11 +13,11 @@ def group(data, keyfun=None):
     return dict(zip(uniquekeys, groups))
 
 
-def distribution(data, keyfun=None):
+def distribution(data, keyfun=None, pairs=False):
 
     groups = group(data, keyfun)
 
     for key in groups:
         groups[key] = len(groups[key])
 
-    return groups
+    return list(groups.items()) if pairs else groups
