@@ -40,3 +40,7 @@ def comp_fil(in_list: List[str]) -> List[str]:
 
 def comp_map(in_list: List[str]) -> List[int]:
     return [mapping_fun(row) for row in in_list]
+
+
+def comp_sum() -> int:
+    return for_red(comp_map(comp_fil(getFile(FILE_PATH))))
