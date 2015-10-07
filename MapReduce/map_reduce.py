@@ -80,3 +80,6 @@ def gen_sum() -> int:
 
 def buil_sum() -> int:
     return buil_red(buil_map(buil_fil(get_file(FILE_PATH))))
+
+def sum_sum() -> int:
+    return sum(buil_map(buil_fil(get_file(FILE_PATH))))
