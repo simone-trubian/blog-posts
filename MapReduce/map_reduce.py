@@ -2,20 +2,21 @@ from functools import reduce
 from string import ascii_letters
 from random import randrange, choice
 from typing import List, Iterator
+from numpy import array
 
 FILE_PATH = 'list.txt'
 
 # -------------------------------------------------------------------------- #
 #           File Generation
 # -------------------------------------------------------------------------- #
-def genLine() -> str:
+def gen_line() -> str:
     return ''.join((choice(ascii_letters) for _ in
                     range(randrange(3, 15)))) + '\n'
 
-def genFile(count: int) -> None:
-    with open('list.txt', 'w') as out_file:
+def gen_file(count: int) -> None:
+    with open(FILE_PATH, 'w') as out_file:
         for line in range(count):
-            out_file.write(genLine())
+            out_file.write(gen_line())
 
 
 # -------------------------------------------------------------------------- #
