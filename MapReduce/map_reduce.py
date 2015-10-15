@@ -33,8 +33,7 @@ def get_file(file_path: str) -> List[str]:
 def mapping_fun(in_str: str) -> int:
     return len([char for char in in_str if char.isupper()])
 
-#def for_red(in_list: Iterator[int]) -> int: FIXME: make this fun generic.
-def for_red(in_list):
+def for_red(in_list: Iterator[int]) -> int:
     sum = 0
     for count in in_list: sum += count
     return sum
