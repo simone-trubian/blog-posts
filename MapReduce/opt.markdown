@@ -107,9 +107,7 @@ The first version of the compiled source actually runs half the speed of Python 
 <pre><code class="haskell">
 totCaps = foldl1' (+) . map capCount . filterStr
 </code></pre>
-The foldl' function is an eager version of a fold left, which is the best suited for working with very large or indeed boundless structures. After re-compiling let's try running the program again.
-
-trial 3 fold no opts.
+The foldl' function is an eager version of a fold left, which is the best suited for working with very large or indeed boundless structures. After re-compiling let's try running the program again.  trial 3 fold no opts.
 <pre><code>49503832
   27,408,098,264 bytes allocated in the heap
    2,748,692,920 bytes copied during GC
@@ -133,8 +131,11 @@ trial 3 fold no opts.
 
   Productivity  83.4% of total user, 82.5% of total elapsed
 </code></pre>
-trial 2 sum opt.
 
+Now the runtime is doing much better, the GC allocates a lot less memory and is kept less busy. If on the memory management side things have improved dramatically, the actual MUT elapsed time did not change significantly. As it happens the Glasgow compiler ships with a few optimisation flags that can be turned on during compilation. The easiest to try out is the -O (big O) or -O2. So let's try compiling and running both versions with the optimisation flag on.
+
+
+trial 2 sum opt.
 <pre><code>49503832
   24,152,302,232 bytes allocated in the heap
    1,153,660,608 bytes copied during GC
@@ -158,8 +159,6 @@ trial 2 sum opt.
 
   Productivity  90.1% of total user, 89.1% of total elapsed
 </code></pre>
-
-
 
 trial 4 foldl opts.
 <pre><code>49503832
@@ -185,3 +184,5 @@ trial 4 foldl opts.
 
   Productivity  90.8% of total user, 90.3% of total elapsed
 </code></pre>
+
+This test is perhaps the most surprising: switching on the optimisation flag enables the compiler to do some really clever transformation. The strategy is smart enough to do without mindless lazy evaluation and run the program in constant memory even with the plain `sum` function. Not just that (which is remarkable on its own) but the entire runtime is now faster on all metrics. Now thanks to one flag only our program is, despite being shorter than a *Python* version is faster and does not conusume more memory. Try beating that!
