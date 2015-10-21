@@ -1,12 +1,12 @@
 # Optimization with large datasets.
 
 Python and Haskell might seem like worlds apart. One is object-oriented, the other purely functional, one is dynamic the other static, one is interpreted the other compiled. Yet I find the two languages to have a similar feel: they both have a clan syntax, prefer a declarative approach to programming and provide high-level constructs.
-In this post we're going to try both languages in a mapreduce-like job, the kind of work that is often necessary to do when analysing large amounts of data. However the task is a bit contrived it works as a good example and is very simple to understand. The job consists of reading a text file containing 12 million rows, filtering out the ones that are too short and too long, counting the number of Capital letters in it and then calculating the total number of letters.
+In this post we're going to try both languages in a mapreduce-like job, the kind of work that is often necessary to do when analysing large amounts of data. Even though the task is a bit contrived it works as a good example and is very simple to understand. The job consists of reading a text file containing 12 million rows, filtering out the ones that are too short and too long, counting the number of Capital letters in each line and them and then summing up all the partial counts.
 
-An interesting aspect of mapreduce which is in some respects reminiscent of old school batch jobs, is that in many cases it only requires an initial IO phase to gather data and is concluded with a final IO phase to return the result. In between the two phases there can be an enormous amount of computation that is mostly pure. Furthermore it is the type of computation that often allows for parallelisation of the tasks. This is one of the reason why in my opinion functional languages can be a good fit for this type of computation.
+An interesting aspect of mapreduce which is in some respects reminiscent of old school batch jobs, is that in many cases it only requires an initial IO phase to gather data and is concluded with a final IO phase to return the result. In between the two phases there can be an enormous amount of computation that is mostly pure. Furthermore it is the type of computation that often allows for parallelisation of the tasks. These are some of the reasons why in my opinion functional languages can be a good fit for this type of computation.
 
-A standard Python implementation could be something like
-<pre><code class="python"> from string import ascii_letters
+A standard Python implementation for the task at hand could be something like
+<pre><code class="python">from string import ascii_letters
 from random import randrange, choice
 
 def gen_line() -> str:
@@ -46,16 +46,16 @@ def sum_sum() -> int:
     return sum(buil_map(buil_fil(get_file(FILE_PATH))))
 </code></pre>
 
-Here I'm using built-in functions that come with the standard Python distribution, the reader is wellcome to checkout the [blog repository](https://github.com/simone-trubian/blog-posts) for alternative implementations or better still experiment with his/her own.
+Here I'm using built-in functions that come with the standard Python distribution, the reader is welcome to checkout the [blog repository](https://github.com/simone-trubian/blog-posts) for alternative implementations or better still experiment with his/her own.
 
-The first two functions are used to generate the text file that will be used to run the performance tests. My testing environment is a laptop equipped with a 4 cores i7 and 16 Gb of RAM, please note that running times will differ according to the machine the tests are run on and the text file which is created randomly. After generating the text file we can use Ipython to time the function.
+The first two functions are used to generate the text file that will be used to run the performance tests. My testing environment is a laptop equipped with a 4 cores i7 2 GHz and 8 Gb of RAM running Debian Jessie, please note that running times will also differ depending on the text file as it is created randomly. After generating the text file we can use Ipython to time the function.
 <pre><code class="python">In [5]: %timeit mr.sum_sum()
-1 loops, best of 3: 16.4 s per loop
+1 loops, best of 3: 14.8 s per loop
 </code></pre>
 
-This is the out of the box performance of Python, it runs in constant memory and uses one CPU core only. It will provide the reference against which to compare Haskell.
+This is the out of the box performance of Python, the program runs in constant memory and uses one CPU core only. It will provide the reference against which to compare Haskell.
 
-The same operation can be obtained in Haskell with.
+The same program can be re-written in Haskell like so:
 <pre><code class="haskell">import Data.Char (isUpper)
 import Data.List (foldl1')
 
@@ -78,7 +78,7 @@ main = do
     print $ totCaps $ lines file
 </code></pre>
 
-Let's compile the souce code as is with only the `-rtsopts` flag to allow for basic profiling, then let's run the executable with `+RTS -sstderr`.
+Let's compile the source code as is with only the `-rtsopts` (Run Time System options) flag to allow for basic profiling, once that's done then let's run the executable with the [+RTS -sstderr](https://wiki.haskell.org/Performance/GHC) switch. This will allow to dump to standard error a wealth of information regarding the performance of the program.
 
 <pre><code>49503832
   28,213,590,928 bytes allocated in the heap
@@ -103,11 +103,10 @@ Let's compile the souce code as is with only the `-rtsopts` flag to allow for ba
 
   Productivity  50.9% of total user, 48.5% of total elapsed
 </code></pre>
-The first version of the compiled source actually runs half the speed of Python and consumes as much memory as it can get it hands on, oh dear! By a closer inspection of the printout it is clear that the amount of memory allocated to the heap and that has to be handled by the garbage collector is colossal. This is confirmed by the fact that almost half of the running time is taken by the GC itself. The root cause of the problem is most likely the last function, `sum` that is implemented as a right fold. Haskell being a lazy language means that the runtime is trying to allocate the entire 12 million record list before actually doing some computation. Plus it's doing it several times, one each passage. The first optimisation that we can easily do is to substitute the sum with a a better implementation:
-<pre><code class="haskell">
-totCaps = foldl1' (+) . map capCount . filterStr
+The first version of the compiled source actually runs half the speed of Python and consumes as much memory as it can get it hands on, oh dear! By a closer inspection of the printout it is clear that the amount of memory allocated to the heap and that therefore has to be handled by the garbage collector is colossal. This is confirmed by the fact that almost half of the running time is taken by the GC itself. The root cause of the problem is most likely the last function, `sum` that is implemented as a right fold. Haskell is a lazy language which means that the runtime will evaluate a function only when its result is needed. But `sum` requires the *entire* list to be evaluated, this has the knock-on effect all the way up to `readFile` forcing it to read and allocate the entire 12 million record list before actually doing some computation. So the first optimisation that we can easily do is to substitute the sum with a a better implementation:
+<pre><code class="haskell">totCaps = foldl1' (+) . map capCount . filterStr
 </code></pre>
-The foldl' function is an eager version of a fold left, which is the best suited for working with very large or indeed boundless structures. After re-compiling let's try running the program again.  trial 3 fold no opts.
+The foldl' function is an eager version of a fold left, which is the best suited for working with very large or indeed boundless structures. After re-compiling let's try running the program again.
 <pre><code>49503832
   27,408,098,264 bytes allocated in the heap
    2,748,692,920 bytes copied during GC
@@ -132,10 +131,9 @@ The foldl' function is an eager version of a fold left, which is the best suited
   Productivity  83.4% of total user, 82.5% of total elapsed
 </code></pre>
 
-Now the runtime is doing much better, the GC allocates a lot less memory and is kept less busy. If on the memory management side things have improved dramatically, the actual MUT elapsed time did not change significantly. As it happens the Glasgow compiler ships with a few optimisation flags that can be turned on during compilation. The easiest to try out is the -O (big O) or -O2. So let's try compiling and running both versions with the optimisation flag on.
+Now the runtime is doing much better, the GC allocates a lot less memory and is kept less busy. Notice that just by changing *one* function the entire chain of computation is changed! This is one of the quirks of lazy evaluation: as the strict left fold forces complete evaluation at regular intervals, now every function feeding it behaves in the same manner. This therefore means that the `readFile` function (the very first one in the computation chain) is not trying to read the entire file in one go, but runs in constant space!
 
-
-trial 2 sum opt.
+If on the memory management side things have improved dramatically, the actual MUT elapsed time did not change significantly. As it happens the Glasgow compiler ships with a few optimisation flags that can be turned on during compilation. The easiest to try out is the -O (big O) or -O2. So let's try compiling and running both versions with the optimisation flag on. This is the version with `sum`
 <pre><code>49503832
   24,152,302,232 bytes allocated in the heap
    1,153,660,608 bytes copied during GC
@@ -159,8 +157,7 @@ trial 2 sum opt.
 
   Productivity  90.1% of total user, 89.1% of total elapsed
 </code></pre>
-
-trial 4 foldl opts.
+And this is the one with `foldl`
 <pre><code>49503832
   24,152,302,216 bytes allocated in the heap
    1,153,660,608 bytes copied during GC
@@ -185,4 +182,4 @@ trial 4 foldl opts.
   Productivity  90.8% of total user, 90.3% of total elapsed
 </code></pre>
 
-This test is perhaps the most surprising: switching on the optimisation flag enables the compiler to do some really clever transformation. The strategy is smart enough to do without mindless lazy evaluation and run the program in constant memory even with the plain `sum` function. Not just that (which is remarkable on its own) but the entire runtime is now faster on all metrics. Now thanks to one flag only our program is, despite being shorter than a *Python* version is faster and does not conusume more memory. Try beating that!
+This test is perhaps the most surprising: switching on the optimisation flag enables the compiler to do some really clever transformation. The strategy is smart enough to do without mindless lazy evaluation and run the program in constant memory even with the plain `sum` function. Not just that (which is remarkable on its own) but the entire runtime is now faster on all metrics. Now thanks to one flag only our program is, despite being shorter than a *Python* version is faster and does not consume more memory. Try beating that!
