@@ -1,6 +1,7 @@
 import Test.QuickCheck (quickCheck)
+import Data.List (sort)
 
-propRevapp :: [Int] -> [Int] -> Bool
-propRevapp xs ys = reverse (xs ++ ys) == reverse ys  ++ reverse xs
+propIdem :: [Int] -> Bool
+propIdem xs = sort xs == sort (sort xs)
 
-main = quickCheck propRevapp
+main = quickCheck propIdem
