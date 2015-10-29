@@ -33,5 +33,51 @@ Exception:
   Quick.hs:5:1-25: Non-exhaustive patterns in function sum'
 []
 </code></pre>
-QuickCheck exposed for us a corner case we did not think about: the empty list! We can quickly fix that by adding the missing case `sum [] = 0` and test again:
+QuickCheck exposed for us a corner case we did not think about: the empty list! We can quickly fix that by adding the missing case `sum [] = 0` and test again, now all tests pass with flying colours.
 
+Sometimes however we might write a correct function but a wrong property, for instance
+<pre><code class="haskell">propSumPos :: [Int] -> Bool
+propSumPos xs = sum' xs >= 0
+</code></pre>
+does not hold true in all cases, in fact when we try running it we get this
+<pre><code class="haskell">Main> quickCheck propSumPos
+** Failed! Falsifiable (after 5 tests and 4 shrinks):
+[-1]
+</code></pre>
+which per se isn't very telling us in helping debug the wrong property. The first thing to do to debug the test is to run QuickCheck in verbose mode, so that we can see what values were generated and what made it fail in the first place.
+
+<pre><code class="haskell">*Main> verboseCheck propSumPos
+Passed:
+[]
+Passed:
+[]
+Failed:
+[1,-2]
+**** Failed! Passed:
+[]
+Failed:
+[-2]
+Passed:
+[]
+Passed:
+[2]
+Passed:
+[0]
+Failed:
+[-1]
+Passed:
+[]
+Passed:
+[1]
+Passed:
+[0]
+Falsifiable (after 3 tests and 2 shrinks):
+[-1]
+</code></pre>
+ It is worth at this point spending a few lines on explaining how QuickCheck generates its test cases and runs the tests. First it will try running corner cases for the input data structure (an empty list for lists in this case), and then generate progressively bigger data points. When a counter example is found, QuickCheck will use the `shrink` function to do the opposite of before, that is reduce a large data point in progressively smaller ones. In this case the `[1, -2]` data point fails the property predicate, so QuickCheck shrinks it, if we try ourselves the result is
+<pre><code class="haskell">Main> shrink [1, -2]
+[[],[-2],[1],[0,-2],[1,2],[1,0],[1,-1]]
+</code></pre>
+different from the example before but helps explaining that shrink is generating "smaller" examples of the starting data point.
+
+Going back to our failing test, QuickCheck will try providing the smaller possible counter example, which is the reason why it presents as result not the original value [1, -2], but a shrunk version of it [-1]. Knowing this is easy to realise that our property can only hold as long as all values are equal or bigger then 0.

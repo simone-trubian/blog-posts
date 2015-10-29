@@ -1,4 +1,9 @@
-import Test.QuickCheck (quickCheck)
+import Test.QuickCheck
+  (
+   quickCheck
+  ,verboseCheck
+  ,shrink
+  )
 import Data.List (sort)
 
 sum' :: [Int] -> Int
