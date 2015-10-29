@@ -1,6 +1,19 @@
 import Test.QuickCheck (quickCheck)
+import Data.List (sort)
 
-propRevapp :: [Int] -> [Int] -> Bool
-propRevapp xs ys = reverse (xs ++ ys) == reverse ys  ++ reverse xs
+sum' :: [Int] -> Int
 
-main = quickCheck propRevapp
+sum' [] = 0
+sum' (x:xs) = x + sum' xs
+
+propSumAsso :: [Int] -> Bool
+propSumAsso xs = sum' xs + sum' xs == sum' (xs ++ xs)
+
+propSumComm :: [Int] -> Bool
+propSumComm xs = sum' xs == sum' (reverse xs)
+
+propSumPos :: [Int] -> Bool
+propSumPos xs = sum' xs >= 0
+
+propIdem :: [Int] -> Bool
+propIdem xs = sort xs == sort (sort xs)
