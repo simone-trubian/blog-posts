@@ -17,14 +17,14 @@ import Data.List (sort)
 sum' [] = 0
 sum' (x:xs) = x + sum' xs
 
-propSumAsso :: [Int] -> Bool
-propSumAsso xs = sum' xs + sum' xs == sum' (xs ++ xs)
+prop_SumAsso :: [Int] -> Bool
+prop_SumAsso xs = sum' xs + sum' xs == sum' (xs ++ xs)
 
-propSumComm :: [Int] -> Bool
-propSumComm xs = sum' xs == sum' (reverse xs)
+prop_SumComm :: [Int] -> Bool
+prop_SumComm xs = sum' xs == sum' (reverse xs)
 
-propSumPos :: (Num a, Show a, Ord a) => Positive [a] -> Bool
-propSumPos = undefined
+prop_SumPos :: (Num a, Show a, Ord a) => Positive [a] -> Bool
+prop_SumPos = undefined
 
-propIdem :: [Int] -> Bool
-propIdem xs = sort xs == sort (sort xs)
+prop_Idem :: [Int] -> Bool
+prop_Idem xs = sort xs == sort (sort xs)
