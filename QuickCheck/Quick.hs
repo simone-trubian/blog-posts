@@ -12,10 +12,31 @@ import Test.QuickCheck.Modifiers
    Positive (..)
   )
 
+import Test.QuickCheck.Arbitrary
+  (
+   Arbitrary (..)
+  ,arbitrary
+  )
+
+import Test.QuickCheck.Gen
+  (
+   sized
+  ,choose
+  )
+
 import Data.List (sort)
 
 sum' [] = 0
 sum' (x:xs) = x + sum' xs
+
+data PosList = PosList [Int]
+  deriving (Show, Ord)
+
+instance Arbitrary (PosList) where
+  arbitrary = sized $ \n -> do
+    k <- choose (0, n)
+    list <- sequence [ arbitrary | _ <- [1..k] ]
+    return $ PosList list
 
 prop_SumAsso :: [Int] -> Bool
 prop_SumAsso xs = sum' xs + sum' xs == sum' (xs ++ xs)
