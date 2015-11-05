@@ -53,7 +53,7 @@ Passed:
 []
 Failed:
 [1,-2]
-**** Failed! Passed:
+*** Failed! Passed:
 []
 Failed:
 [-2]
@@ -81,3 +81,5 @@ Falsifiable (after 3 tests and 2 shrinks):
 different from the example before but helps explaining that shrink is generating "smaller" examples of the starting data point.
 
 Going back to our failing test, QuickCheck will try providing the smaller possible counter example, which is the reason why it presents as result not the original value [1, -2], but a shrunk version of it [-1]. Knowing this is easy to realise that our property can only hold as long as all values are equal or bigger then 0.
+
+Knowing this we need to find a way to generate only positive numbers for populating the list so that we can feed the property with the right data. Unfortunately there is no easy way of getting QuickCheck to do that, the Test.QuickCheck.Modifiers has a `Positive` type, but that is only capable (as I have learned the hard way) to generate values of the Num typeclass, not [Num], that is only single values not lists. This means that we'll have to implement the Arbitrary typeclass methods, the standard QuickCheck way of specifying a generator for a custom data type.
