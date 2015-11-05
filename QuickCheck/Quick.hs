@@ -8,6 +8,8 @@ import Test.QuickCheck
    quickCheck
   ,verboseCheck
   ,shrink
+  ,forAll
+  ,listOf
   )
 
 import Test.QuickCheck.Modifiers
@@ -43,6 +45,12 @@ sum' :: Num a => [a] -> a
 sum' [] = 0
 sum' (x:xs) = x + sum' xs
 
+posIntList :: (System.Random.Random a, Num a) => Gen [a]
+posIntList = listOf $ choose (1,1000000)
+
+gen_sumPos :: Property
+gen_sumPos = forAll posIntList prop_sumPos
+
 prop_SumAsso :: [Int] -> Bool
 prop_SumAsso xs = sum' xs + sum' xs == sum' (xs ++ xs)
 
@@ -51,6 +59,9 @@ prop_SumComm xs = sum' xs == sum' (reverse xs)
 
 prop_SumPos :: PosList -> Bool
 prop_SumPos xs = sum' xs >= 0
+
+prop_sumPos :: [Int] -> Bool
+prop_sumPos xs = sum' xs >= 0
 
 prop_Idem :: [Int] -> Bool
 prop_Idem xs = sort xs == sort (sort xs)
