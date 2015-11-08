@@ -1,40 +1,32 @@
-{-# LANGUAGE TypeSynonymInstances #-}
-{-# LANGUAGE FlexibleInstances #-}
-
 import Test.QuickCheck
   (
    quickCheck
   ,verboseCheck
   ,shrink
-  )
-
-import Test.QuickCheck.Arbitrary
-  (
-   Arbitrary (..)
+  ,elements
+  ,suchThat
   ,arbitrary
-  )
-
-import Test.QuickCheck.Gen
-  (
-   sized
+  ,sized
   ,choose
+  ,shuffle
+  ,sublistOf
   ,Gen (..)
+  ,Arbitrary (..)
   )
 
-sum' :: Num a => [a] -> a
+data Phone = Phone String String String
+    deriving (Show, Ord, Eq)
 
-sum' [] = 0
-sum' (x:xs) = x + sum' xs
-
-type PosList = [Integer] --Int overflows the test!
-
--- List can overflow Int
-instance Arbitrary PosList where
-  arbitrary = sized $ \n -> do
-    k <- choose (0, n)
-    list <- sequence [ arbitrary | _ <- [1..k] ]
-    return $ filter (> 0) list
+instance Arbitrary Phone where
+  arbitrary = do
+    c <- elements ["0044", "0011", "0039"]
+    p <- elements ["0207", "0208"]
+    x <- choose (10000, 999999) :: Gen Int
+    let n = show x
+    return (Phone c p n)
 
 
-prop_SumPos :: PosList -> Bool
-prop_SumPos xs = sum' xs >= 0
+genPhone :: Gen Phone
+genPhone = arbitrary
+
+prop_numLen (Phone a b c) = length a == length b && length b <= length c
