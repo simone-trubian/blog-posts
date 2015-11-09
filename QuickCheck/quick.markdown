@@ -109,3 +109,10 @@ The reason why I'm using strings here is that phone numbers are more like names 
     phoneNumber <- choose (10000, 999999) :: Gen Int
     return (Phone (show countryCode) (show areaCode) (show phoneNumber))
 </code></pre>
+The arbitrary is pretty straightforward: for each section of the phone number a number is randomly generated, and its value bound to a name. Finally a Phone data instance is constructed and returned, notice that all generative functions were ristricted to to Int to avoid ambiguity with the show function (this is called monomorphic restriction and is sometimes necessary with chaining two generic functions).
+
+To make sure that our arbitrary function is generating what we had in mind we can use restriction again:
+<pre><code class="haskell">genPhone :: Gen Phone
+genPhone = arbitrary
+</code></pre>
+This function, thanks to the type signature is automatically bound to our implementation of `arbitrary`, this allows to call the sample function that will generate 30 samples.
