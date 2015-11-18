@@ -8,5 +8,10 @@ define(function (require) {
     // full IDs, like:
     //var print = require('print');
 
-    document.writeln('I loaded stuff!');
+    var paragraph = document.createElement('p');
+    var node = document.createTextNode('I just loaded stuff!');
+    paragraph.appendChild(node);
+
+    var body = document.getElementsByTagName('body')[0];
+    body.appendChild(paragraph);
 });
