@@ -2,9 +2,9 @@
 // except for 'app' ones, which are in a sibling
 // directory.
 requirejs.config({
-    baseUrl: 'lib',
+    baseUrl: 'node_modules',
     paths: {
-        app: '../app'
+        app: 'app'
     }
 });
 
