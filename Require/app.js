@@ -1,8 +1,10 @@
 requirejs.config({
     baseUrl: 'node_modules',
     paths: {
-        app: '../app'
+        main: '../app/main',
+        jquery: 'jquery/dist/jquery'
     }
 });
 
-requirejs(['app/main']);
+requirejs(['jquery']);
+requirejs(['main']);
