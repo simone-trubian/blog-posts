@@ -1,7 +1,8 @@
 ({
-    appDir: '../',
+    appDir: './',
     baseUrl: 'app',
-    dir: '../../build',
+    dir: '../build',
+    fileExclusionRegExp: /^node_modules/,
     paths: {
         jquery: 'empty:'
     },
