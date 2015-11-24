@@ -10,7 +10,8 @@
         loggingLevel: 'TRACE'
     },
     paths: {
-        jquery: 'empty:'
+        angular: 'empty:',
+        bootstrap: 'empty:'
     },
     modules: [
         {
