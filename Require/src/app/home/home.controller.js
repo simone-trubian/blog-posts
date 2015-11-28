@@ -1,11 +1,11 @@
 define([], function () {
 
     HomeController.$inject=[
-      '$scope',
+      '$scope'
     ];
 
     function HomeController(
-        $scope,
+        $scope
         ) {
 
         $scope.lisName = 'Todo List';
