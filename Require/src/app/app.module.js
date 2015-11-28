@@ -1,11 +1,18 @@
 define(['app/app.config',
-        'home/home.controller',
-  ],
+        'angular',
+        'ngRoute',
+        'ngResource',
+        'home/home.controller'
+    ],
 
-  function(config,
-           HomeController) {
+    function(config,
+             angular,
+             ngRoute,
+             ngResource,
+             HomeController
+             ) {
 
-    var app = angular.module('requireApp', ['ngRoute','ngResource','ngGrid']);
+    var app = angular.module('requireApp', ['ngRoute','ngResource']);
 
     app.config(config);
     app.controller('HomeController', HomeController);
