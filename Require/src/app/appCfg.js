@@ -1,6 +1,10 @@
+'use strict';
+
 define([], function () {
 
     config.$inject=['$routeProvider'];
+
+    return config;
 
     function config($routeProvider) {
           $routeProvider
@@ -10,5 +14,4 @@ define([], function () {
             .otherwise({redirectTo: '/'});
       }
 
-    return config;
 });
