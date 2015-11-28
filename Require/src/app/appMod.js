@@ -1,3 +1,5 @@
+'use strict';
+
 define(['appCfg',
         'angular',
         'ngRoute',
@@ -12,8 +14,13 @@ define(['appCfg',
              HomeController
              ) {
 
-    var app = angular.module('requireApp', ['ngRoute','ngResource']);
+    var dependencies = [
+        'ngRoute',
+        'ngResource'
+    ];
 
-    app.config(config);
-    app.controller('HomeController', HomeController);
+    angular
+        .module('requireApp', dependencies)
+        .config(config)
+        .controller('HomeController', HomeController)
 });
