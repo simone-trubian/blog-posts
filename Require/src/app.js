@@ -2,11 +2,11 @@
 requirejs.config({
     baseUrl: '../node_modules',
     paths: {
-        main: '../app/main',
+        app: '../app',
+        home: '../app/home',
         angular: 'angular/angular/angular',
-        bootstrap: 'angular/angular-bootstrap/ui-bootstrap'
     }
 });
 
 // Load the app by importing the 'main' module.
-requirejs(['main']);
+requirejs(['app/main']);
