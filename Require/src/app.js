@@ -6,7 +6,7 @@ requirejs.config({
         home: '../app/home',
         angular: 'angular/angular',
         ngRoute: 'angular-route/angular-route',
-        ngResource: 'angular-resource/angular-resource',
+        ngResource: 'angular-resource/angular-resource'
     },
     shim: {
         'angular': {
