@@ -7,16 +7,16 @@ requirejs.config({
         appCfg: '../app/appCfg',
         home: '../app/home',
         angular: 'https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min',
-        ngRoute: 'https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.min',
+        ngState:'https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min',
         ngResource: 'https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-resource.min'
     },
     shim: {
         'angular': {
             exports: 'angular'
         },
-        'ngRoute': {
+        'ngState': {
             deps: ['angular'],
-            exports: 'ngRoute'
+            exports: 'ngState'
         },
         'ngResource': {
             deps: ['angular'],

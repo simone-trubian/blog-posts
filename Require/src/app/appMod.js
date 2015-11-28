@@ -2,20 +2,20 @@
 
 define(['appCfg',
         'angular',
-        'ngRoute',
+        'ngState',
         'ngResource',
         'home/homeCtrl'
     ],
 
     function(config,
              angular,
-             ngRoute,
+             ngState,
              ngResource,
              HomeController
              ) {
 
     var dependencies = [
-        'ngRoute',
+        'ui.router',
         'ngResource'
     ];
 

@@ -11,7 +11,7 @@
     },
     paths: {
         angular: 'empty:',
-        ngRoute: 'empty:',
+        ngState: 'empty:',
         ngResource: 'empty:'
     },
     modules: [

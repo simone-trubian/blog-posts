@@ -2,16 +2,21 @@
 
 define([], function () {
 
-    config.$inject=['$routeProvider'];
+    config.$inject=['$urlRouterProvider', '$stateProvider'];
 
-    return config;
+    function config($urlRouterProvider, $stateProvider) {
+          $stateProvider
+              .state('home', {
+                  url: '/',
+                  templateUrl: 'app/home/home.html',
+                  controller: 'HomeController',
+                  controllerAs: 'vm',
+                  requireLogin: false
+          });
 
-    function config($routeProvider) {
-          $routeProvider
-            .when('/',
-                  {templateUrl: 'app/home/home.html',
-                   controller: 'HomeController'})
-            .otherwise({redirectTo: '/'});
+          $urlRouterProvider
+              .otherwise('/');
       }
 
+    return config;
 });

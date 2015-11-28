@@ -7,20 +7,20 @@ requirejs.config({
         appCfg: '../app/appCfg',
         home: '../app/home',
         angular: 'angular/angular',
-        ngRoute: 'angular-route/angular-route',
+        ngState: 'angular-ui-router/build/angular-ui-router',
         ngResource: 'angular-resource/angular-resource'
     },
     shim: {
         'angular': {
             exports: 'angular'
         },
-        'ngRoute': {
-            deps: ['angular'],
-            exports: 'ngRoute'
-        },
         'ngResource': {
             deps: ['angular'],
             exports: 'ngResource'
+        },
+        'ngState': {
+            deps: ['angular'],
+            exports: 'ngState'
         }
     }
 });
