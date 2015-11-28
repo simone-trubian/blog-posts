@@ -11,7 +11,8 @@
     },
     paths: {
         angular: 'empty:',
-        bootstrap: 'empty:'
+        ngRoute: 'empty:',
+        ngResource: 'empty:'
     },
     modules: [
         {

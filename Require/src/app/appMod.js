@@ -1,8 +1,8 @@
-define(['app/app.config',
+define(['appCfg',
         'angular',
         'ngRoute',
         'ngResource',
-        'home/home.controller'
+        'home/homeCtrl'
     ],
 
     function(config,

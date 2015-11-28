@@ -1,3 +1,3 @@
-require(['app/app.module'], function () {
+require(['appMod'], function () {
     angular.bootstrap(document, ['requireApp']);
 });
