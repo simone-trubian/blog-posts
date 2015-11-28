@@ -4,10 +4,10 @@ define([], function () {
 
     function config($routeProvider) {
           $routeProvider
-            .when('/home',
-                  {templateUrl: 'home/home.html',
+            .when('/',
+                  {templateUrl: 'app/home/home.html',
                    controller: 'HomeController'})
-            .otherwise({redirectTo: '/home'});
+            .otherwise({redirectTo: '/'});
       }
 
     return config;
