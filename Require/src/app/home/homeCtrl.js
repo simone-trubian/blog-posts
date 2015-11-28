@@ -2,16 +2,17 @@
 
 define([], function () {
 
-    HomeController.$inject=[
-      '$scope'
-    ];
+    //HomeController.$inject=[
+    //  '$scope'
+    //];
 
-    function HomeController(
-        $scope
-        ) {
+    function HomeController() {
+       // $scope
+       // ) {
+       var vm = this;
 
-        $scope.lisName = 'Todo List';
-        $scope.gridOptions = {
+        vm.listName = 'Todo List';
+        vm.gridOptions = {
             data: 'ideas',
             columnDefs: [
                 {field: 'name', displayName: 'Name'},
