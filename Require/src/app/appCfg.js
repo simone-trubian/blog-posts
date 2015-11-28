@@ -2,9 +2,17 @@
 
 define([], function () {
 
-    config.$inject=['$urlRouterProvider', '$stateProvider'];
+    config.$inject=[
+        '$urlRouterProvider',
+        '$stateProvider',
+        '$resourceProvider'
+    ];
 
-    function config($urlRouterProvider, $stateProvider) {
+    function config(
+        $urlRouterProvider,
+        $stateProvider,
+        $resourceProvider
+        ) {
           $stateProvider
               .state('home', {
                   url: '/',
@@ -16,6 +24,8 @@ define([], function () {
 
           $urlRouterProvider
               .otherwise('/');
+
+          $resourceProvider.defaults.stripTrailingSlashes = false;
       }
 
     return config;
