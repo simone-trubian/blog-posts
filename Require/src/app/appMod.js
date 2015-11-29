@@ -4,14 +4,16 @@ define(['appCfg',
         'angular',
         'ngState',
         'ngResource',
-        'home/homeCtrl'
+        'home/homeCtrl',
+        'home/homeSrv'
     ],
 
     function(config,
              angular,
              ngState,
              ngResource,
-             HomeCtrl
+             HomeCtrl,
+             HomeSrv
              ) {
 
     var dependencies = [
@@ -23,4 +25,5 @@ define(['appCfg',
         .module('requireApp', dependencies)
         .config(config)
         .controller('HomeCtrl', HomeCtrl)
+        .factory('HomeSrv', HomeSrv)
 });

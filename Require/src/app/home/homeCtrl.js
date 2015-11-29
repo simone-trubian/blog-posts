@@ -1,23 +1,21 @@
 'use strict';
 
-define([], function () {
+define(['home/homeSrv'], function (HomeSrv) {
 
+    HomeCtrl.$inject = ['HomeSrv'];
     return HomeCtrl;
 
-    function HomeCtrl() {
-       var vm = this;
+    function HomeCtrl(HomeSrv) {
+        var vm = this;
 
-        vm.listName = 'Todo List';
-        vm.gridOptions = {
-            data: 'ideas',
-            columnDefs: [
-                {field: 'name', displayName: 'Name'},
-                {field: 'technologies', displayName: 'Technologies'},
-                {field: 'platform', displayName: 'Platforms'},
-                {field: 'status', displayName: 'Status'},
-                {field: 'devsNeeded', displayName: 'Vacancies'},
-                {field: 'id', displayName: 'View Details'}
-            ]
-        };
+        vm.listName = undefined;
+        vm.toDoList = undefined;
+
+        activate();
+
+        function activate() {
+            vm.listName = 'Todo List';
+            vm.toDoList = HomeSrv.getTDList();
+        }
     }
 });
