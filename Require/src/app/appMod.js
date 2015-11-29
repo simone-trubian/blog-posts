@@ -11,7 +11,7 @@ define(['appCfg',
              angular,
              ngState,
              ngResource,
-             HomeController
+             HomeCtrl
              ) {
 
     var dependencies = [
@@ -22,5 +22,5 @@ define(['appCfg',
     angular
         .module('requireApp', dependencies)
         .config(config)
-        .controller('HomeController', HomeController)
+        .controller('HomeCtrl', HomeCtrl)
 });

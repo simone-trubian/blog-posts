@@ -2,13 +2,9 @@
 
 define([], function () {
 
-    //HomeController.$inject=[
-    //  '$scope'
-    //];
+    return HomeCtrl;
 
-    function HomeController() {
-       // $scope
-       // ) {
+    function HomeCtrl() {
        var vm = this;
 
         vm.listName = 'Todo List';
@@ -24,5 +20,4 @@ define([], function () {
             ]
         };
     }
-    return HomeController;
 });

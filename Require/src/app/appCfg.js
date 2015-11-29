@@ -17,7 +17,7 @@ define([], function () {
               .state('home', {
                   url: '/',
                   templateUrl: 'app/home/home.html',
-                  controller: 'HomeController',
+                  controller: 'HomeCtrl',
                   controllerAs: 'vm',
                   requireLogin: false
           });
