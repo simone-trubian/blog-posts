@@ -16,15 +16,16 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'test/test-main.js', // Load test runner.
-      'node_modules/requirejs/*.js', // Load Require JS.
-      'node_modules/angular/*.min.js', // Load Angular.
-      'app/home/*.js', // Load all tested source.
-      'test/app/**/*.js', //Load all tests.
+      {pattern: 'node_modules/requirejs/*.js', included: false}, // Load Require JS.
+      {pattern: 'node_modules/angular/*.min.js', included: false}, // Load Angular.
+      {pattern: 'app/home/*.js', included: false}, // Load all tested source.
+      {pattern: '../src/test/app/**/*.js', included: true}, //Load all tests.
     ],
 
 
     // list of files to exclude
     exclude: [
+      'app/main.js'
     ],
 
 

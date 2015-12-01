@@ -1,5 +1,5 @@
 var allTestFiles = [];
-var TEST_REGEXP = /(spec|test)\.js$/i;
+var TEST_REGEXP = /(spec|test|Spec)\.js$/i;
 
 // Get a list of all the test files to include
 Object.keys(window.__karma__.files).forEach(function(file) {
@@ -14,8 +14,22 @@ Object.keys(window.__karma__.files).forEach(function(file) {
 
 require.config({
   // Karma serves files under /base, which is the basePath from your config file
-  baseUrl: './',
+  baseUrl: '../',
 
+  paths: {
+        //main: '../app/main',
+        //appMod: '../app/appMod',
+        //appCfg: '../app/appCfg',
+        home: '../app/home',
+        angular: 'angular/angular',
+        //ngState: 'angular-ui-router/build/angular-ui-router',
+        //ngResource: 'angular-resource/angular-resource'
+    },
+    shim: {
+        'angular': {
+            exports: 'angular'
+        },
+    },
   // dynamically load all test files
   deps: allTestFiles,
 
