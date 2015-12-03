@@ -22,6 +22,9 @@ The configuration file, in this case app.js is where all the dependencies, both 
 <pre code=javascript>
 </pre>
 Notice that differently from a language-managed module system here the programmer is forced to specify paths for all modules. This can get tricky, for instance to my knowlede the Require JS version used in this post is only able to move back from a directory one level deep. This means that all external dependencies had to be put in the root of the project directory.
+
+## As always I cannot steer the future - Thu  3 Dec 17:24:11 GMT 2015
+A few days ago (monday) I got a unsolicited request for a junior Clojure developer. Now that went against all I set out to do for my career, it was a badly paid temporary position with no contracting. That basically set me back for a good year both money and career-wise but I would have still taken that. It is a risk to put so much (basically my future) into one basket, but that would be a nice basket where to be, the functional JVM one. I was expecting feedback by yesterday and I still did not received a word, so I'm considering that to be gone, and that's a shame. So what is left? I guess Python (boring as fuck) and Angular (annoying as hell), both of which are really not in my confort zone. All I can do for now I guess is getting to be known better and keep on woking on my blog. But I feel I should take a more pro-active approach and get the ball rolling with the two functional recruiters.
 ### Task 2 make sure development and production can be switched just by changing one file.
 ### Task 3 compile the entire prod project with the google closure compiler.
 jjs -cp ../../../../closure/compiler.jar -scripting node_modules/requirejs/bin/r.js -- -o build.js
