@@ -1,4 +1,13 @@
 {
+  "name": "one-tag-app",
+  "description": "A stub angular project with conscious dependecy management.",
+  "repository": "",
+  "licence": "BSD3",
+  "author": {
+    "name": "Simone Trubian",
+    "email": "simone.trubian@gmail.com",
+    "url": ""
+  },
   "dependencies": {
     "angular": "^1.4.8",
     "angular-resource": "^1.4.8",
