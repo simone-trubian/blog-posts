@@ -1,7 +1,5 @@
 # One Tag to rule them all, One Tag to find them, One Tag to bring them all, and in the page bind them
 
-How to manage dependencies in clean way so that it becomes easy to maintain both the development and production environment.
-
 please note that this post uses these versions of the following libraries:
 <pre><code class="json">
     angular: 1.4.8
@@ -9,9 +7,11 @@ please note that this post uses these versions of the following libraries:
     jquery: 2.1.4
 </code></pre>
 
-Some of the differences between a development and a production environment is that they serve different purposes. During development the programmer wants all the required dependencies on the local machine, in a human readable format, and there are no constraints when it come to size of the codebase (dependencies included). However when serving an app to the browser, it is best to gather all dependencies from CDN's and serve a minfied version of the actual application. This has several advantages such as avoiding to fetch already cached libraries, minimising load times, and serving an optimised version of the application.
+One of the problems experienced in developing a large one-page front end application is dependency management which if not dealt with properly means big headaches when it's time to get the application ready for production. This post is a brief how-to on how do deal with dependency and compiling an Angular app in a clean way.
 
-Despite being well structured Angular still misses some features that make the life of a programmer easier, some of which are in fact *language* shortcomings. For instance EcmaScript 5 does not have a real module system that allows for exporting definitions from a file and importing them in another. Module systems are nowadays a necessary feature that helps braking down a project and use libraries developed by third parties.
+Despite being well structured Angular still misses some features that make the life of a programmer easier, some of which are in fact *language* shortcomings. EcmaScript 5 does not have a real module system that allows for exporting definitions from a file and importing them in another. Module systems are nowadays a necessary feature that helps braking down a project and use libraries developed by third parties.
+
+During development the programmer wants all the required dependencies on the local machine, in a human readable format, and there are no constraints when it come to size of the codebase (dependencies included). However when serving an app to the browser, it is best to gather all dependencies from CDN's and serve a minfied version of the actual application. This has several advantages including avoiding to fetch already cached libraries, lowering load times, and serving an optimised version of the application. Managing the two environments without a module system is hard error prone work, so a solution is needed.
 
 As JS does not come with a module system the most common workaround is using a library called Require JS to do that instead. For those used to a module system using Require looks unfamiliar: as there are no language primitives like `import` Require asks the user to wrap all code in modules in a function called `define` and expose using the function ``. Furthermore the library also requires a configuration file, used to manage all external and user-defined dependencies.
 
@@ -50,6 +50,9 @@ The sharp-eyed will have noticed that with this configuration even Require is no
 
 ### Step 3 compile the entire prod project with the google closure compiler.
 Perhaps the most important reason for managing dependencies with Require JS is that it ships with the r.js module that makes compiling an entire app easy. Compiling an entire app requires to give the entire project a well defined structure, so that dependencies can be managed on one hand and the source code can be compiled without interfering with the source code.
+<<<<<<< HEAD
+
+### Task 4 Create a seed Angular project, and validate all previous steps.
 ```/
     src/
         node_modules/
